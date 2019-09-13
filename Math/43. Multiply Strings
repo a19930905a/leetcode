@@ -1,0 +1,42 @@
+/*
+
+		leetcode : https://leetcode.com/problems/multiply-strings/
+		
+		Given two non-negative integers num1 and num2 represented as strings, return the product of num1 and num2, also represented as a string.
+
+		Example 1:
+
+		Input: num1 = "2", num2 = "3"
+		Output: "6"
+		Example 2:
+
+		Input: num1 = "123", num2 = "456"
+		Output: "56088"
+
+
+思路 : 這題要我們在不用直接整個轉換的情況下計算兩個 String 的相乘 , 我們可以創立一個陣列並且把相乘的模式整個拆分開來並放置到對應的地
+      方
+
+
+*/
+
+class Solution {
+    public String multiply(String num1, String num2) {
+		int[] res = new int[num1.length() + num2.length()];
+		StringBuilder sb = new StringBuilder();
+		
+		for(int i = num1.length() -1 ; i>=0 ; i--){
+			for(int j = num2.length() -1 ; j>=0 ;j--){
+				int temp = (num1.charAt(i)- '0') * (num2.charAt(j) - '0');
+				res[i+j] += (res[i+j+1] + temp) / 10;
+				res[i+j+1] = (res[i+j+1] + temp) % 10;
+			}
+		}
+		
+		for(int n : res){
+			if(sb.length() > 0 || n >0)
+				sb.append(n);
+		}
+		return sb.length() == 0 ? "0" : sb.toString();
+	}
+}

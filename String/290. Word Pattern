@@ -1,0 +1,55 @@
+/*
+
+		leetcode : https://leetcode.com/problems/word-pattern/
+
+		Given a pattern and a string str, find if str follows the same pattern.
+
+		Here follow means a full match, such that there is a bijection between a letter in pattern and a non-empty word in str.
+
+		Example 1:
+
+		Input: pattern = "abba", str = "dog cat cat dog"
+		Output: true
+		Example 2:
+
+		Input:pattern = "abba", str = "dog cat cat fish"
+		Output: false
+		Example 3:
+
+		Input: pattern = "aaaa", str = "dog cat cat dog"
+		Output: false
+		Example 4:
+
+		Input: pattern = "abba", str = "dog dog dog dog"
+		Output: false
+
+思路: 這題是要我們返回是否符合應該的對應關係,我們可以利用 HashMap 來建立 pattern 跟 str 間的鍵值對關係並進行判斷
+
+*/
+
+class Solution {
+    public boolean wordPattern(String pattern, String str) {
+        HashMap<Character , String > map = new HashMap();
+        String[] temp = str.split("\\s");
+        char[] c = pattern.toCharArray();
+        
+        if(c.length != temp.length)
+            return false;
+        
+        for(int i = 0 ; i<c.length; i++){
+			//當 map 裡面沒有 pattern 的 c[i] 值 , 加入 map 內
+            if(!map.containsKey(c[i])){
+				//當沒有鍵入 key 值卻有該 value , 不合乎正常的對應關係 返回 false
+                if(map.containsValue(temp[i]))
+                    return false;
+                map.put(c[i],temp[i]);   
+            }
+            else{
+			//當有 pattern 的值在 map 內,就需要判斷這個 str 的字符串是不是與先前存入的 pattern value 相同,不同則返回 false
+                if(!map.get(c[i]).equals(temp[i]))
+                    return false;
+            }
+        }
+        return true;
+    }
+}

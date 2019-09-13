@@ -1,0 +1,49 @@
+/*
+		leetcode : https://leetcode.com/problems/remove-duplicates-from-sorted-array-ii/
+		
+		Given a sorted array nums, remove the duplicates in-place such that duplicates appeared at most twice and return the new length.
+
+		Do not allocate extra space for another array, you must do this by modifying the input array in-place with O(1) extra memory.
+
+		Example 1:
+
+		Given nums = [1,1,1,2,2,3],
+
+		Your function should return length = 5, with the first five elements of nums being 1, 1, 2, 2 and 3 respectively.
+
+		It doesn't matter what you leave beyond the returned length.
+		Example 2:
+
+		Given nums = [0,0,1,1,1,1,2,3,3],
+
+		Your function should return length = 7, with the first seven elements of nums being modified to 0, 0, 1, 1, 2, 3 and 3 respectively.
+
+		It doesn't matter what values are set beyond the returned length.
+
+思路: 這題跟  Remove Duplicates from Sorted Array I 差別在於這次陣列中若有重複元素最多只能存在兩個,思路相同 只是我們再多加上一個 counter 來記錄現
+     在陣列內有幾個重複元素
+
+
+
+*/
+
+class Solution {
+    public int removeDuplicates(int[] nums) {
+		int j = 1;
+		int counter = 1;
+		
+		for(int i = 1 ; i<nums.length ; i++){
+			if(nums[i] != nums[i-1]){
+				nums[j] = nums[i];
+				j++;
+				counter = 1;		//刷新 counter 素質
+			}
+			else if(nums[i] == nums[i-1] && counter < 2){
+				nums[j] = nums[i];
+				j++
+				counter++;			//累加現有重複元素數量
+			}
+		}
+		return j;
+	}
+}

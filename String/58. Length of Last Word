@@ -1,0 +1,28 @@
+/*
+		leetcode : https://leetcode.com/problems/length-of-last-word/
+
+		Given a string s consists of upper/lower-case alphabets and empty space characters ' ', 
+		return the length of last word in the string.
+
+		If the last word does not exist, return 0.
+
+		Note: A word is defined as a character sequence consists of non-space characters only.
+
+		Example:
+
+		Input: "Hello World"
+		Output: 5
+		
+思路: 這題要我們求出空格後的最後字串長度 , 我們利用 lastIndexOf 來找出最後空格的 index 位置在跟字串長度相減就好
+	
+
+*/
+
+class Solution {
+    public int lengthOfLastWord(String s) {
+		String res = s.trim();				//預防該輸入字串有前置或後置空格
+		int last = res.lastIndexOf(" ") + 1;
+		
+		return res.length() - last ;
+	}
+}

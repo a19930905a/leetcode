@@ -1,0 +1,44 @@
+/*
+
+	leetcode : https://leetcode.com/problems/first-missing-positive/
+	
+	Given an unsorted integer array, find the smallest missing positive integer.
+
+	Example 1:
+
+	Input: [1,2,0]
+	Output: 3
+	Example 2:
+
+	Input: [3,4,-1,1]
+	Output: 2
+	Example 3:
+
+	Input: [7,8,9,11,12]
+	Output: 1
+
+	Note:
+
+	Your algorithm should run in O(n) time and uses constant extra space.
+	
+思路:這題要求我們找到缺失的正整數並且不可另闢空間,表示我們只能在這個陣列裡想辦法,這邊思路是把每個數值放到他應該對應的 index 區域,1應
+     該放到nums[0],2放到num[1] ... 這樣擺好後再執行一個迴圈判斷哪個地方的值不等於他的 index+1 返回該值即可
+*/
+
+class Solution {
+    public int firstMissingPositive(int[] nums) {
+		for(int i = 0 ; i<nums.length ; i++){
+			while(nums[i] > 0 && nums[i] <= nums.length && nums[nums[i]-1] != nums[i]){
+				int temp = nums[nums[i]-1];
+				nums[nums[i]-1] = nums[i];
+				nums[i] = temp;
+			}
+		}
+		
+		for(int i = 0 ; i<nums.length ;i++){
+			if(nums[i] != i+1)
+				return i+1;
+		}
+		return nums.length+1;
+	}
+}

@@ -1,0 +1,93 @@
+/*
+    leetcode : https://leetcode.com/problems/symmetric-tree/
+    
+    Given a binary tree, check whether it is a mirror of itself (ie, symmetric around its center).
+
+    For example, this binary tree [1,2,2,3,4,4,3] is symmetric:
+
+        1
+       / \
+      2   2
+     / \ / \
+    3  4 4  3
+
+
+    But the following [1,2,2,null,3,null,3] is not:
+
+        1
+       / \
+      2   2
+       \   \
+       3    3
+
+
+    Note:
+    Bonus points if you could solve it both recursively and iteratively.
+
+
+思路 : 這題是要我們判斷樹是否為對稱樹 , 這邊值得思考的是用 Iterative 來解題了話 , 我們每次都將節點的左右子節點全 push 進 stack 中,並且在每次取出後
+      做下一輪判斷,當兩個節點都為 null 可以略過不做 , 但當僅有其中一個為 null 抑或是兩個值並不相等了話,則返回 false 
+
+
+
+
+*/
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+Solution 1 : Recursive 
+ 
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        return helper(root,root);
+    }
+    public boolean helper(TreeNode left,TreeNode right){
+        if(left == null && right == null)
+            return true;
+        if(left == null || right == null)
+            return false;
+        if(left.val == right.val)
+            return helper(left.left , right.right) && helper(left.right , right.left);
+        else{
+            return false;
+        }
+    }
+}
+
+Solution 2 : Iterative
+
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        if(root == null)
+            return true;
+        Stack<TreeNode> stack = new Stack();
+        
+        stack.push(root.left);
+        stack.push(root.right);
+        
+        while(!stack.isEmpty()){
+            TreeNode right = stack.pop();
+            TreeNode left = stack.pop();
+            //皆為空指標,略過
+            if(left == null && right == null)
+                continue;
+            
+            else if(left == null || right == null || left.val != right.val)
+                return false;
+            
+            //左右子節點 push 進 Stack , 等待下一次判斷
+            stack.push(left.left);
+            stack.push(right.right);
+            stack.push(left.right);
+            stack.push(right.left);
+        }
+        return true;
+    }
+}

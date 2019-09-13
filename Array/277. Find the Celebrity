@@ -1,0 +1,51 @@
+/*
+
+	leetcode : https://leetcode.com/problems/find-the-celebrity/
+	
+	Suppose you are at a party with n people (labeled from 0 to n - 1) and among them, there may exist one celebrity.
+	
+	The definition of a celebrity is that all the other n - 1 people know him/her but he/she does not know any of them.
+
+	Now you want to find out who the celebrity is or verify that there is not one. 
+
+	The only thing you are allowed to do is to ask questions like: “Hi, A. Do you know B?” to get information of whether A knows B. 
+
+	You need to find out the celebrity (or verify there is not one) by asking as few questions as possible (in the asymptotic sense).
+
+	You are given a helper function bool knows(a, b) which tells you whether A knows B. Implement a function int findCelebrity(n), 
+
+	your function should minimize the number of calls to knows.
+
+	Note: There will be exactly one celebrity if he/she is in the party. Return the celebrity’s label if there is a celebrity in the party. 
+		  If there is no celebrity, return -1.
+
+
+思路 : 這題要我們找出名人,名人的意思就是大家認識他 他不認識大家,並且題目給了我們一個 know 函數 , know(a,b) = a 知道 b , 我們可以利用一個思路就是
+       如果是名人了話大家都知道他,並且題目限定只有一個名人或是沒有,所以當我們走訪全部人的時候只要 choose 被 下一個人所知我們就更新 choose 成為可能
+	   選項,再看看他知不知道其他人,如果剩下的人他都不知道,那他就有可能是名人,然後我們最後再用一個迴圈確定這個 choose 是不是被大家所知並且自己也不
+	   知道任何人即可 
+
+
+*/
+
+/* The knows API is defined in the parent class Relation.
+      boolean knows(int a, int b); */
+ 
+public class Solution extends Relation {
+	public int findCelebrity(int n) {
+		int choose = 0;
+		
+		for(int i = 1 ; i<n ; i++){
+			if(know( choose , i ))		//更新可能的人選
+				choose = i;
+		}
+		
+		for(int i = 1 ; i<n ;i++){
+			if( i != choose && (know(choose , i) || !know(i,choose)){		//當人選可能知道任何人 或是 有人不知道此人選 return -1
+				return -1;
+			}
+		}
+		
+		return choose;
+	}
+}

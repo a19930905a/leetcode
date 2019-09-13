@@ -1,0 +1,60 @@
+/**
+		leetcode : https://leetcode.com/problems/first-unique-character-in-a-string/
+
+		Given a string, find the first non-repeating character in it and return it's index. If it doesn't exist, return -1.
+
+		Examples:
+
+		s = "leetcode"
+		return 0.
+
+		s = "loveleetcode",
+		return 2.
+		Note: You may assume the string contain only lowercase letters.
+
+思路 : 這題要我們找出在字符串中第一個不重複的字元,我們可以利用創立一個以英文字母排序的 26 空間陣列,先走訪一次字符串把每個字符放置在
+       對應位置,然後下一次在走訪的時候只要對應位置為 1 的便可以返回他的 index 值
+
+
+*/
+Solution 1 : new int[26]
+class Solution {
+    public int firstUniqChar(String s) {
+		int[] temp = new int[26];
+		
+		for(int i = 0 ; i<s.length() ; i++){
+			temp[s.charAt(i) - 'a']++;
+		}
+		for(int i = 0 ; i<s.length() ; i++){
+			if(temp[s.charAt(i) - 'a'] == 1){
+				return i ;
+			}
+		}
+		return -1;
+	}
+}
+Solution 2 : Map
+
+class Solution {
+    public int firstUniqChar(String s) {
+        if(s == null || s.length() == 0) 
+            return -1;
+        HashMap<Character , Integer> map = new HashMap();
+        int i = 0;
+        int res = Integer.MAX_VALUE;
+        for(char c : s.toCharArray()){
+            if(!map.containsKey(c)){
+                map.put(c,i);
+            }else{
+                map.replace(c,s.length());
+            }
+            i++;
+        }
+        for(int a : map.values()){
+            if(a!=s.length()){
+                res = Math.min(res,a);
+            }
+        }
+        return res>-1 && res<s.length() ? res : -1;
+    }
+}

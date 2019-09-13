@@ -1,0 +1,43 @@
+/*
+
+		leetcode : https://leetcode.com/problems/jump-game/
+		
+		Given an array of non-negative integers, you are initially positioned at the first index of the array.
+
+		Each element in the array represents your maximum jump length at that position.
+
+		Determine if you are able to reach the last index.
+
+		Example 1:
+
+		Input: [2,3,1,1,4]
+		Output: true
+		Explanation: Jump 1 step from index 0 to 1, then 3 steps to the last index.
+		Example 2:
+
+		Input: [3,2,1,0,4]
+		Output: false
+		Explanation: You will always arrive at index 3 no matter what. Its maximum
+					 jump length is 0, which makes it impossible to reach the last index.
+
+
+思路 : 每一格的數字代表能跳達的最遠地方 , 這邊我們可以每次往前走一格都來看看這次是否能更新我們能抵達的最遠距離,只要我們能到達的地方不小於 i 就
+      表示我們可以到達終點
+
+
+
+*/
+
+class Solution {
+    public boolean canJump(int[] nums) {
+		int reach = 0;
+		
+		for(int i=0 ; i<nums.length ; i++){
+			if(reach < i)			//表示無法到達當前位置 , return false
+				return false;
+			
+			reach = Math.max(reach , nums[i] + i);
+		}
+		return true;
+	}
+}

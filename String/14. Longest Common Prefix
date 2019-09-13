@@ -1,0 +1,35 @@
+/**
+
+		https://leetcode.com/problems/longest-common-prefix/
+		
+		Write a function to find the longest common prefix string amongst an array of strings.
+
+		If there is no common prefix, return an empty string "".
+
+		Example 1:
+
+		Input: ["flower","flow","flight"]
+		Output: "fl"
+		
+		Example 2:
+
+		Input: ["dog","racecar","car"]
+		Output: ""
+		Explanation: There is no common prefix among the input strings.
+
+思路:這題要我們找到 strs 字串陣列中他們全部共通的 prefix , 我們可以利用 String 的 indexOf 特性,先任意挑 strs 內的一個字串出來並讓
+	陣列內其他的人對他做 indexOf 判斷,當他傳回 -1 代表不相同,我們便開始做 substring 刪減字串直到傳回 0 為止
+
+*/
+class Solution {
+    public String longestCommonPrefix(String[] strs) {
+		if(strs == null || strs.length == 0 )
+			 return "";
+		String res = strs[0];
+		for(int i = 1 ; i<strs.length ; i++){
+			while(str[i].indexOf(res) != 0 )			// 當傳回 -1,表示 str[i] 不包含 res 字串
+				res = res.substring(0,res.length()-1);	// 開始由後往前刪減 res 字串,直到傳回 0 
+		}
+		return res;
+	}
+}

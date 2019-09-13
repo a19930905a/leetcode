@@ -1,0 +1,46 @@
+/*
+
+	leetcode : https://leetcode.com/problems/reverse-vowels-of-a-string/
+	Write a function that takes a string as input and reverse only the vowels of a string.
+
+	Example 1:
+
+	Input: "hello"
+	Output: "holle"
+	
+	Example 2:
+
+	Input: "leetcode"
+	Output: "leotcede"
+	Note:
+	The vowels does not include the letter "y".
+
+思路:這題要我們反轉字符串內有母音的字符,首先我們可以先用 HashSet 建立母音表 , 然後把 String 改成 CharArray 方便我們逐一判斷,再利用
+兩指標定位第一個和最後一個出現的母音在交換即可
+*/
+class Solution {
+    public String reverseVowels(String s) {
+		HashSet<Character> vowels = new HashSet(Arrays.asList('a','e','i','u','o','A','E','I','U','O'));
+		char c[] = s.toCharArray();
+		int a = 0;
+		int b = c.length-1;
+		
+		while(a<b){
+			while(a<b && !vowels.contains(c[a])){			// 不包含在 set 內 = 不是母音 , 往下一個搜尋
+				a++;
+			}
+			while(a<b && !vowels.contains(c[b])){			// 不包含在 set 內 = 不是母音 , 往下一個搜尋
+				b--;
+			}
+			
+			char temp = c[a];								// 交換
+			c[a] = c[b];
+			c[b] = temp;
+			
+			a++;
+			b--;
+		}
+		
+		return new String(c);
+	}
+}

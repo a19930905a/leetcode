@@ -1,0 +1,44 @@
+/*
+
+		leetcode : https://leetcode.com/problems/container-with-most-water/
+
+		Given n non-negative integers a1, a2, ..., an , where each represents a point at coordinate (i, ai). 
+		n vertical lines are drawn such that the two endpoints of line i is at (i, ai) and (i, 0). Find two lines,
+		which together with x-axis forms a container, such that the container contains the most water.
+
+		Note: You may not slant the container and n is at least 2.
+
+
+		The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of water (blue section) 
+		the container can contain is 49.
+
+
+
+		Example:
+
+		Input: [1,8,6,2,5,4,8,3,7]
+		Output: 49
+
+思路:這題是要我們求出最大的儲水量,我們可以利用兩個 pointer 的技巧並且利用 Math.max 更新可能的最大值即可
+
+
+*/
+class Solution {
+    public int maxArea(int[] height) {
+		int max = 0;
+		int left = 0;
+		int right = 0;
+		
+		while(left < right){
+			if(height[left] < height[right]){
+				max = Math.max( max , height[left] * (right - left) );
+				left++;
+			}else{
+				max = Math.max( max , height[right] * (right - left) );
+				right--;
+			}
+		}
+		
+		return max;
+	}
+}

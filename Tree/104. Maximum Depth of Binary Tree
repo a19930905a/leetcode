@@ -1,0 +1,37 @@
+/*
+
+	leetcode : https://leetcode.com/problems/maximum-depth-of-binary-tree/
+	
+	Given a binary tree, find its maximum depth.
+
+	The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
+
+	Note: A leaf is a node with no children.
+
+	Example:
+
+	Given binary tree [3,9,20,null,null,15,7],
+
+		3
+	   / \
+	  9  20
+		/  \
+	   15   7
+	   
+	return its depth = 3.
+
+
+思路: 這題要求得出樹所擁有的最大 Depth , 我們可以利用遞迴搜尋左右子樹的可能性 , 每往下一個子樹便 +1 並在最後傳回左和右子樹的最大值就是該樹的最大深度
+
+*/
+
+class Solution {
+    public int maxDepth(TreeNode root) {
+		if( root == null )
+			return 0;
+		int left = maxDepth(root.left) + 1 ;
+		int right = maxDepth(root.right) + 1;
+		
+		return Math.max( left , right );
+	}
+}

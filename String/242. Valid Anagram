@@ -1,0 +1,40 @@
+/*
+
+		leetcode : https://leetcode.com/problems/valid-anagram/
+
+		Given two strings s and t , write a function to determine if t is an anagram of s.
+
+		Example 1:
+
+		Input: s = "anagram", t = "nagaram"
+		Output: true
+		Example 2:
+
+		Input: s = "rat", t = "car"
+		Output: false
+
+思路: 這題問我們 s 能不能由 t 的所有字元組成 , 我們可以先創立一個 26 大小的陣列當作字典 , 將 t 每個字元放置到對應的位置後記錄該字元的
+     出現次數,並在走訪 s 時逐一遞減每個字元數量,這樣最後我們在走訪一次字典陣列時只要有出現 <0 的 Index 了話表示兩個有不相同的地方,需要
+	 return false
+
+*/
+
+
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        if(s.length() != t.length())
+            return false;
+        int[] dict = new int[26];
+        for(char c : s.toCharArray()){
+            dict[c-'a']++;
+        }
+        for(char c : t.toCharArray()){
+            dict[c-'a']--;
+        }
+        for(int i = 0 ; i<dict.length ; i++){
+            if(dict[i]<0)
+                return false;
+        }
+        return true;
+    }
+}

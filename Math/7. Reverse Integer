@@ -1,0 +1,46 @@
+/*
+
+		leetcode : https://leetcode.com/problems/reverse-integer/
+
+		Given a 32-bit signed integer, reverse digits of an integer.
+
+		Example 1:
+
+		Input: 123
+		Output: 321
+
+		Example 2:
+
+		Input: -123
+		Output: -321
+
+		Example 3:
+
+		Input: 120
+		Output: 21
+		Assume we are dealing with an environment which could only store integers within the 32-bit signed 
+		integer range: [−231,  231 − 1]. For the purpose of this problem, assume that your function returns 0 
+		when the reversed integer overflows.
+		
+		
+思路 : 這題要我們反轉 x , 我們可以利用取餘數來一步一步反轉整個 x ,這邊要特別注意的是在 Note 部分有特別聲明當反轉的數會超越 Integer 的
+上下限了話需要返回 0 
+P.S. : 如果我們將 Integer.MAX_VALUE + 1 將返回 MIN_VALUE , 同理 Integer.MIN_VALUE
+*/
+
+class Solution {
+    public int reverse(int x) {
+		int res = 0;
+		
+		while( x != 0 ){
+			int pop = x % 10;
+			int temp = pop + (res * 10);
+			//判斷反轉值是否已經溢位
+			if( (temp - pop) / 10 != res)
+				return 0;
+			res = temp;
+			x /= 10;
+		}
+		return res;
+	}
+}

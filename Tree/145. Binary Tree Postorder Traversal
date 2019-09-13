@@ -1,0 +1,75 @@
+/*
+leetcode : https://leetcode.com/problems/binary-tree-postorder-traversal/
+
+
+
+
+Given a binary tree, return the postorder traversal of its nodes' values.
+
+Example:
+
+Input: [1,null,2,3]
+   1
+    \
+     2
+    /
+   3
+
+Output: [3,2,1]
+
+思路:
+	Post-order走訪 , 左子樹 -> 右子樹 -> 根節點 , 這邊最有趣的是在 Iterative 方法裡面,我們可以利用 LinkedList 中的 addFirst 方法 , 先將左子樹
+	push 至 stack 內,最後 res.add 時反而會在 list 的開頭.
+
+*/
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+ 
+Solution 1 : Recursive
+ 
+class Solution {
+    public List<Integer> postorderTraversal(TreeNode root) {
+		List<Integer> res = new ArrayList();
+		helper(root,res);
+		return res;
+	}
+	public void helper(TreeNode root , List<Integer> res){
+		if(root == null)
+			return ;
+		helper(root.left , res);
+		helper(root.right ,res);
+		res.add(root.val);
+	}
+}
+
+
+Solution 2 : Iterative
+
+class Solution {
+    public List<Integer> postorderTraversal(TreeNode root) {
+		Stack<TreeNode> stack = new Stack();
+		LinkedList<Integer> res = new LinkedList();
+		
+		if(root == null)
+			return null;
+		
+		stack.push(root);
+		while(!stack.isEmpty()){
+			TreeNode currnet = stack.pop();
+			res.addFirst(current.val);
+			if(current.left != null)
+				stack.push(current.left);
+			if(current.right != null)
+				stack.push(current.right);
+		}
+		return res;
+	}
+}

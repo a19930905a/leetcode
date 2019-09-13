@@ -1,0 +1,49 @@
+/*
+	leetcode : https://leetcode.com/problems/rotate-array/
+	
+	Given an array, rotate the array to the right by k steps, where k is non-negative.
+
+	Example 1:
+
+	Input: [1,2,3,4,5,6,7] and k = 3
+	Output: [5,6,7,1,2,3,4]
+	Explanation:
+	rotate 1 steps to the right: [7,1,2,3,4,5,6]
+	rotate 2 steps to the right: [6,7,1,2,3,4,5]
+	rotate 3 steps to the right: [5,6,7,1,2,3,4]
+	Example 2:
+
+	Input: [-1,-100,3,99] and k = 2
+	Output: [3,99,-1,-100]
+	Explanation: 
+	rotate 1 steps to the right: [99,-1,-100,3]
+	rotate 2 steps to the right: [3,99,-1,-100]
+
+
+思路:這題要我們將陣列最後一個值改放置陣列第一位並連續做 k 次 ,這邊我們可以用另一個思路先將整個陣列倒轉後再把 k 當作分界線在倒轉分割後的兩個區塊 
+	ex:[1,2,3,4,5,6,7] -> [7,6,5,4,3,2,1] -> [5,6,7,4,3,2,1] -> [5,6,7,1,2,3,4] ,我們只要再做一個 swap 函數方便作業即可
+
+*/
+
+class Solution {
+    public void rotate(int[] nums, int k){
+		k = k % nums.length;				//預防 k 值 比 nums.length 還大的狀況
+		
+		swap(nums,0,nums.length-1);			//反轉整個陣列
+		swap(nums,0,k-1);					//反轉以 k 為中心的前面區塊
+		swap(nums,k,nums.length-1);			//反轉以 k 為中心的後面區塊
+	}
+	
+	public void swap(int[] nums,int a,int b){
+		while(a<b){
+			int temp = nums[a];
+			nums[a] = nums[b];
+			nums[b] = temp;
+			
+			a++;
+			b--;
+		}
+	}
+}
+	
+	

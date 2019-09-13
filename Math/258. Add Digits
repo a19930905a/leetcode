@@ -1,0 +1,36 @@
+/*
+
+		leetcode : https://leetcode.com/problems/add-digits/
+		
+		Given a non-negative integer num, repeatedly add all its digits until the result has only one digit.
+
+		Example:
+
+		Input: 38
+		Output: 2 
+		Explanation: The process is like: 3 + 8 = 11, 1 + 1 = 2. 
+					 Since 2 has only one digit, return it.
+
+思路 : 這題要我們將整數的每個個數相加持續循環到最後的答案是一位數 , 我們可以先轉換成 String 以便相加 , 然後循環至答案為一位數
+
+
+*/
+
+class Solution {
+    public int addDigits(int num) {
+		if(num < 10)
+			return num;
+		String s = Integer.toString(num);
+		int res = num;
+		
+		while( res>= 10 ){
+			res = 0;
+			for(int i = 0 ; i<s.length() ; i++){
+			//各個個數相加
+				res += s.charAt(i) - '0';
+			}
+			s = Integer.toString(res);
+		}
+		return res;
+	}
+}

@@ -1,0 +1,112 @@
+/**
+
+  leetcode : https://leetcode.com/problems/same-tree/
+  
+  Given two binary trees, write a function to check if they are the same or not.
+
+  Two binary trees are considered the same if they are structurally identical and the nodes have the same value.
+
+  Example 1:
+
+  Input:     1         1
+            / \       / \
+           2   3     2   3
+
+          [1,2,3],   [1,2,3]
+
+  Output: true
+  Example 2:
+
+  Input:     1         1
+            /           \
+           2             2
+
+          [1,2],     [1,null,2]
+
+  Output: false
+  Example 3:
+
+  Input:     1         1
+            / \       / \
+           2   1     1   2
+
+          [1,2,1],   [1,1,2]
+
+  Output: false
+
+思路:這邊比較有趣的是 Iterative 的解法 ,我們可以用兩個 stack 存取兩顆樹並對每個節點逐一判斷,只要有一個部分不滿足就返回 false 而如果該節點相同就繼續
+     往下搜索
+ 
+
+*/
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+Solution 1 : Recursive 
+
+class Solution {
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+		return helper(p,q);
+    }
+	public boolean helper(TreeNode t1,TreeNode t2){
+		if(t1 == null && t2 == null)
+			return true;
+		if(t1 == null || t2 == null)
+			return false;
+		if(t1.val == t2.val)
+			return helper(t1.left , t2.left) && helper(t1.right , t2.right);
+		else
+			return false;
+	}
+}
+
+Solution 2 : Iterative
+
+class Solution {
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+        if(p == null && q == null)
+            return true;
+        else if(p == null || q ==null)
+            return false;
+        Stack<TreeNode> s_p = new Stack();
+        Stack<TreeNode> s_q = new Stack();
+        
+        s_p.push(p);
+        s_q.push(q);
+        
+        while(!s_p.isEmpty() && !s_q.isEmpty()){
+            TreeNode current_p = s_p.pop();
+            TreeNode current_q = s_q.pop();
+            
+            if(current_p.val != current_q.val)
+                return false;
+            else{
+                if(current_p.left != null && current_q.left != null){			//當兩棵樹的左子節點皆不為空,加入該子節點
+                    s_p.push(current_p.left);
+                    s_q.push(current_q.left);
+                }
+                if(current_p.right != null && current_q.right != null){			//當兩棵樹的右子節點皆不為空,加入該子節點
+                    s_p.push(current_p.right);
+                    s_q.push(current_q.right);
+                }
+                if(current_p.left != null && current_q.left == null || current_p.left == null && current_q.left != null ||   //判斷兩顆樹中的左右子節點是否有不相同之處
+				current_p.right != null && current_q.right == null || current_p.right == null && current_q.right != null)
+                    return false;
+            }
+        }
+        return true;
+    }
+}
+
+
+
+
+
+
+

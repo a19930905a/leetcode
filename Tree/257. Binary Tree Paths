@@ -1,0 +1,58 @@
+/**
+
+	leetcode : https://leetcode.com/problems/binary-tree-paths/
+	
+	Given a binary tree, return all root-to-leaf paths.
+
+	Note: A leaf is a node with no children.
+
+	Example:
+
+	Input:
+
+	   1
+	 /   \
+	2     3
+	 \
+	  5
+
+	Output: ["1->2->5", "1->3"]
+
+	Explanation: All root-to-leaf paths are: 1->2->5, 1->3
+
+思路：這題要求我們輸出 根節點+左子樹 以及 根節點+右子樹 全部的走訪 , 我們可以在 helper 函數裡面再多傳入一個空的 String temp 參數來存入每次經過
+	  的 root.val 而當遞迴至最後一個節點時再將 temp 和最後一個 root.val 傳入 res 即可
+
+*/
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+
+class Solution {
+    public List<String> binaryTreePaths(TreeNode root) {
+		LinkedList<String> res = new LinkedList();
+		if(root != null)
+			helper(root , "" , res);
+		return res;
+	}
+	public void helper(TreeNode root , String temp , LinkedList<String> res){
+		//當當前節點的左右子樹皆為空表示我們已到達最後節點,將先前所記憶的 temp 值和當前的 root.val 結合並傳回 res 內
+		if(root.left == null && root.right == null)
+			res.add(temp + root.val);
+		//若左子樹不為空,繼續走訪
+		if(root.left != null)
+			helper(root.left , temp + root.val + "->" , res);		//將該節點的 val 傳入 temp 中,並持續往左子樹走訪
+		//若右子樹不為空,繼續走訪
+		if(root.right != null)
+			helper(root.right , temp + root.val + "->" , res);		//將該節點的 val 傳入 temp 中,並持續往右子樹走訪
+	}
+}
+	
+	

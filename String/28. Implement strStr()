@@ -1,0 +1,35 @@
+/*
+
+		leetcode : https://leetcode.com/problems/implement-strstr/
+		
+		Implement strStr().
+
+		Return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
+
+		Example 1: 
+
+		Input: haystack = "hello", needle = "ll"
+		Output: 2
+
+		Example 2:
+
+		Input: haystack = "aaaaa", needle = "bba"
+		Output: -1
+
+
+思路:這題要我們求出 haystack 內是否有 needle 字串,有了話輸出他的 index 沒了話傳回 -1 ,我們只要利用 haystack.substring 逐一查找 若
+	有相同的字串就返回該 index ,迴圈結束後仍沒找到代表沒相同的就返回 -1
+
+*/
+
+class Solution {
+    public int strStr(String haystack, String needle) {
+		int h = haystack.length();
+		int n = needle.length();
+		for(int i = 0 ; i<=h-n ; i++){
+			if(haystack.substring(i , i+n).equals(needle))
+				return i ;
+		}
+		return -1;
+	}
+}

@@ -1,0 +1,84 @@
+/**
+		leetcode : https://leetcode.com/problems/path-sum/
+		
+		Given a binary tree and a sum, determine if the tree has a root-to-leaf path such that adding up all the values along the path equals the given sum.
+
+		Note: A leaf is a node with no children.
+
+		Example:
+
+		Given the below binary tree and sum = 22,
+
+			  5
+			 / \
+			4   8
+		   /   / \
+		  11  13  4
+		 /  \      \
+		7    2      1
+		return true, as there exist a root-to-leaf path 5->4->11->2 which sum is 22.
+
+
+思路: 這題要我們求出 input 樹從根節點一路走到葉節點的所有路徑是否有總合為 sum 的路徑 , 我們可以每往下走一層便扣掉當前節點的 val ,並在最後節點判斷
+	  最後的 sum 值是否為最後一個節點的值或是 0 , 差別只在於看我們是要記錄當前節點的剩餘值在往下一個節點,還是往下後在扣掉節點值
+
+*/
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+ 
+Solution 1 : Recursive
+ 
+class Solution {
+    public boolean hasPathSum(TreeNode root, int sum) {
+		return helper(root , sum);	
+	}
+	public boolean helper(TreeNode root , int remain){
+		if(root == null)
+			return false;
+		if(root.left == null && root.right == null && remain == root.val)
+			return true;
+			
+		return helper(root.left , remain - root.val) || helper(root.right , remain - root.val);
+	}
+}
+
+
+Solution 2 : Iterative
+ 
+class Solution {
+    public boolean hasPathSum(TreeNode root, int sum) {
+		if(root == null)
+			return false;
+		
+		Stack<TreeNode> stack = new Stack();
+		Stack<Integer> remain = new Stack();
+		
+		stack.push(root);
+		stack.push(sum - root.val);
+		
+		while(!stack.isEmpty()){
+			TreeNode current = stack.pop();
+			int current_sum = remain.pop();
+			
+			if(current.left == null && current.right == null && remain == 0)
+				return true;
+			if(current.left != null){
+				stack.push(current.left);
+				remain(current_sum - current.left.val);
+			}
+			if(current.right != null){
+				stack.push(current.right);
+				remain(current_sum - current.right.val);
+			}
+		}
+		return false;
+	}
+}
