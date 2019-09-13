@@ -1,0 +1,52 @@
+/*
+		leetcode: https://leetcode.com/problems/permutations-ii/
+
+		Given a collection of numbers that might contain duplicates, return all possible unique permutations.
+
+		Example:
+
+		Input: [1,1,2]
+		Output:
+		[
+		  [1,1,2],
+		  [1,2,1],
+		  [2,1,1]
+		]
+
+思路:
+	與前一題唯一差異在於這次陣列內有重複元素,所以需要加入39行的判斷式來去除重複使用的素質,首先每次 temp 加入值後都將 used[i] 改為 true 代表
+	該數值已被使用, 因此當 used[i] 時就 continue 跳過十分合理,但( i>0 && nums[i] == nums[i-1] && !used[i-1] )又是怎麼回事?? 在這邊我們要先
+	判斷 for 迴圈裡面到底做了甚麼...首先在最一開始的 input 可表示為 [ 1 , 1', 2] , 在 i 為 0 時的第一次遞迴跑完 我們會有 output [1 , 1', 2] ,
+	[ 1 , 2 , 1'] 再來就是關鍵的 i 為 1 的第二層,再來會挑選到的是 [ 1', 1 , 2] 這邊就跟我們的 output 重複了! 這就是為什麼 if 的判斷式中我們
+	需要加入 ( i>0 && nums[i] == nums[i-1] && !used[i-1] ) ,當我們到了 i = 1的那層並選擇了 1' 為 temp 的第一個元素時,used 內素質為[F,T,F]
+	這邊依靠這個判斷式得知載來的遞迴只是 1 , 1'的差別,所以可以 continue 略過
+*/
+
+
+class Solution {
+    public List<List<Integer>> permuteUnique(int[] nums) {
+		List<List<Integer>> res = new ArrayList();
+		Arrays.sort(nums);
+		
+		helper(res , new ArrayList() , nums , new boolean[num.length]);
+		return res;
+	}
+	public void helper(List<List<Integer>> res , List<Integer> temp , int[] nums, boolean[] used){
+		if(temp.size() == nums.length)
+			res.add(new ArrayList(temp));
+		
+		for(int i = 0 ; i<nums.length ; i++){
+			if(used[i] || ( i>0 && nums[i] == nums[i-1] && !used[i-1])
+				continue;
+			
+			temp.add(nums[i]);
+			used[i] = true;
+			helper(res , temp , nums , used);
+			used[i] = false;
+			temp.remove(temp.size()-1);
+		}
+	}
+}
+
+
+

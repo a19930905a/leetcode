@@ -1,0 +1,55 @@
+/*
+    leetcode: https://leetcode.com/problems/subsets-ii/
+
+    Given a collection of integers that might contain duplicates, nums, return all possible subsets (the power set).
+
+    Note: The solution set must not contain duplicate subsets.
+
+    Example:
+
+    Input: [1,2,2]
+    Output:
+    [
+      [2],
+      [1],
+      [1,2,2],
+      [2,2],
+      [1,2],
+      []
+    ]
+
+    思路:與 Subsets 唯一差別在這次 input 內有重複參數. 
+    第35行功能在於判別是否加入到重覆的參數至 temp 內 , 這邊最大疑問在於為何 i != start 可以用於判斷?
+    首先最一開始進入 for 迴圈並開始遞迴而最先加入 temp list 的為 { [] , [1] , [1,2] , [1,2,2]} , 此時各層的 i 與 start 皆為同素質
+    但在 [1,2,2] 加入後,將刪除最後一個元素並回到上一層 for 迴圈持續執行,而此時的 i 和 start 已經為不同的素質,
+    若在這個時候遇到 nums[i] == num[i-1] 就可以知道我們已經加入過這個 list 至 res 內,所以可以略過 
+*/
+class solution{
+	public List<List<Integer>> subsetsWithDup(int[] nums){
+		List<List<Integer>> res = new ArrayList();
+		
+		helper(res,new ArrayList(),nums,0);
+		return res;
+	}
+	
+	public void helper(List<List<Integer>> res,List<Integer> temp , int[] nums,int start){
+		res.add(new ArrayList(temp));
+		
+		for(int i = start ; i<nums.length ; i++){
+			if( i != start && num[i]==nums[i-1] )
+				continue;
+			temp.add(nums[i];
+			helper(res,temp,nums,i+1);
+			temp.remove(temp.size()-1);
+		}
+	}
+}
+
+
+
+
+
+
+
+
+

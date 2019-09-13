@@ -1,0 +1,46 @@
+/*
+	leetcode : 	https://leetcode.com/problems/combination-sum/
+
+	Given a set of candidate numbers (candidates) (without duplicates) and a target number (target), find all unique combinations in candidates where the candidate numbers sums to target.
+
+	The same repeated number may be chosen from candidates unlimited number of times.
+
+	Note:
+
+	All numbers (including target) will be positive integers.
+	The solution set must not contain duplicate combinations.
+	Example 1:
+
+
+	Input: candidates = [2,3,6,7], target = 7,
+	A solution set is:
+	[
+	  [7],
+	  [2,2,3]
+	]
+思路:
+	這題是要我們找出 input 中所有總和為 target 的組合, 特別注意的地方是我們可以重複使用 input 中的數值 , ex: target = 6 -> input:[2,2,2]
+	我們可以利用遞迴走訪整個 candidates 陣列並每次都將 target-num[i] 的值傳給下一個遞迴以此挑選人選
+
+
+
+*/
+class Solution {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+		List<List<Integer>> res = new ArrayList();
+		helper(res , new ArrayList() , candidates , target , 0 );
+		return res;
+	}
+	public void helper(List<List<Integer>> res , List<Integer> temp , int[] nums , int remain , int start){
+		if(remain < 0)
+			return;
+		if(remain == 0)
+			res.add(new ArrayList(temp));
+		
+		for(int i = start ; i<nums.length ; i++){
+			temp.add(nums[i]);
+			helper(res , temp , nums, remain - nums[i] , i);
+			temp.remove(temp.size()-1);
+		}
+	}
+}

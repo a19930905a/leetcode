@@ -1,0 +1,61 @@
+/*
+	leetcode : https://leetcode.com/problems/combination-sum-ii/
+
+
+	Given a collection of candidate numbers (candidates) and a target number (target), find all unique combinations in candidates where the candidate numbers sums to target.
+
+	Each number in candidates may only be used once in the combination.
+
+	Note:
+
+	All numbers (including target) will be positive integers.
+	The solution set must not contain duplicate combinations.
+	Example 1:
+
+	Input: candidates = [10,1,2,7,6,1,5], target = 8,
+	A solution set is:
+	[
+	  [1, 7],
+	  [1, 2, 5],
+	  [2, 6],
+	  [1, 1, 6]
+	]
+思路:
+	與 combination-sum 差別在於這次 input 陣列內有使用次數限制,陣列內同一數字有幾個就只能用幾次.這個問題不大,我們只需將原本遞迴條件內的start值
+	從原本的 i 改成 i+1 就可以控制使用次數上的問題,但最大的麻煩在於 output 有可能會重複存取到同一種答案,原因在於當最外層的 for 迴圈結束要走到 
+	i+1 時,如果 num[i+1] 和 nums[i] 是一樣了話就有可能再輸出一次一模一樣的答案,而 (i > start && nums[i] == nums[i-1]) 可以判斷是否選取了同
+	一個數值,這邊稍微說明一下這個判斷式的意義,假設 input:[1 ,1',2 ,5] , target = 8 , 當我們選完跑完 i 為 0 的最外層迴圈後,下一次選擇 [1'] 為
+	temp 第一個值的時候此時的 i = 1 , start = 0 ,所以我們可以用這個判斷式來抓出可能重複的數值
+
+
+
+*/
+
+class Solution {
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+		List<List<Integer>> res = new ArrayList();
+		Arrays.sort(candidates);
+		helper(res,new ArrayList(),candidates,target,0);
+		return res;
+	}
+	public void helper(List<List<Integer>> res , List<Integer> temp ,int[] nums,int remain , int start){
+		if(remain < 0)
+			return;
+		if(remain == 0)
+			res.add(new ArrayList(temp));
+			
+		for(int i = start ; i<nums.length ; i++){
+			if( i > start && nums[i] == nums[i-1] )
+				continue;
+			temp.add(nums[i]);
+			helper(res,temp,nums,remain-nums[i],i+1);
+			temp.remove(temp.size()-1);
+		}
+	}
+}
+
+
+
+
+
+

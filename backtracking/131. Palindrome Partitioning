@@ -1,0 +1,51 @@
+/*
+leetcode :　https://leetcode.com/problems/palindrome-partitioning/
+
+Given a string s, partition s such that every substring of the partition is a palindrome.
+
+Return all possible palindrome partitioning of s.
+
+Example:
+
+Input: "aab"
+Output:
+[
+  ["aa","b"],
+  ["a","a","b"]
+]
+
+思路:
+	首先這題的 output 是要我們輸出 s.substring 的所有回文組合,我們可以在 for 迴圈走訪全部可能性時加入 boolean 的 Palindrome 函數用以判別現在
+	所選取的字串是否為回文並將 true 的參數加入 temp list,而遞迴到了最底層,當 start == s.length() 就可以把正確的 temp list 加入至 res 內
+
+*/
+
+class Solution 
+
+    public List<List<String>> partition(String s) {
+		List<List<String>> res = new ArrayList();
+		helper(res , new ArrayList(), s , 0);
+		return res;
+	}
+	public void helper(List<List<String>> res , List<String> temp , String s , int start){
+		if(start == s.length())
+			res.add(new ArrayList(temp));
+		
+		for(int i = start ; i < s.length() ; i++){
+			if(Palindrome(s,start,i)){
+				temp.add(s.substring(start,i+1));
+				helper(res,temp,s,i+1);
+				temp.remove(temp.size()-1);
+			}
+		}
+	}
+	public void Palindrome(String s , int start , int last){
+		while(start < last){
+			if(s.charAt(start) != s.charAt(last))
+				return false;
+			start++;
+			last--;
+		}
+		return true;
+	}
+}
